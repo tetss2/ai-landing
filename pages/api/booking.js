@@ -73,7 +73,7 @@ export default async function handler(req, res) {
         })
 
         // отправка email через FormSubmit
-        await fetch('https://formsubmit.co/ajax/your@email.com', {
+        await fetch('https://formsubmit.co/ajax/tetss1986@gmail.com', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
