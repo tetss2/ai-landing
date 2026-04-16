@@ -3,8 +3,8 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const TELEGRAM_TOKEN = "8435899229:AAGcAdtIFokpI3uFoPO7EfmHcSGVTbXGy7I";
-  const EMAIL = "tetss1986@gmail.com";
+  const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
+  const EMAIL = process.env.EMAIL;
 
   try {
     const body = req.body;
@@ -17,7 +17,6 @@ export default async function handler(req, res) {
       if (data.startsWith("confirm_")) {
         const time = data.replace("confirm_", "");
 
-        // 1. редактируем сообщение
         await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/editMessageText`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -28,7 +27,6 @@ export default async function handler(req, res) {
           }),
         });
 
-        // 2. отправляем email (через webhook formsubmit)
         await fetch("https://formsubmit.co/ajax/" + EMAIL, {
           method: "POST",
           headers: {
