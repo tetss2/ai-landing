@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 
     console.log('BODY:', body)
     console.log('TOKEN:', TOKEN)
-    console.log('CHAT_ID:', CHAT_ID)
+    console.log('TELEGRAM_CHAT_ID:', TELEGRAM_CHAT_ID)
 
     // если пришла заявка
     if (body.time) {
