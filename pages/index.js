@@ -1,174 +1,171 @@
-import { useState } from "react";
+export default function handler(req, res) {
+  res.setHeader('Content-Type', 'text/html')
 
-export default function Home() {
-  const [open, setOpen] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(null);
+  res.send(`
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Динара Качаева</title>
 
-  const times = [
-    "10:00",
-    "12:00",
-    "14:00",
-    "16:00",
-    "18:00"
-  ];
-
-  const handleSubmit = async () => {
-    if (!selectedTime) {
-      alert("Выберите время");
-      return;
-    }
-
-    await fetch("/api/booking", {
-      method: "POST",
-      body: JSON.stringify({ time: selectedTime }),
-    });
-
-    alert("Заявка отправлена");
-    setOpen(false);
-  };
-
-  return (
-    <main style={{
-      fontFamily: 'Arial, sans-serif',
-      background: '#f7f3ef',
-      color: '#2d2d2d'
-    }}>
-
-      {/* HERO */}
-      <section style={sectionStyle}>
-        <div style={{flex: 1}}>
-          <h1>Динара Качаева</h1>
-          <p>Клинический психолог, г. Москва</p>
-
-          <button style={btnMain} onClick={() => setOpen(true)}>
-            Записаться на консультацию
-          </button>
-        </div>
-
-        <div style={{flex: 1}}>
-          <img src="https://via.placeholder.com/450" style={imgStyle}/>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section style={ctaStyle}>
-        <h2>Записаться на консультацию</h2>
-
-        <button style={btnMain} onClick={() => setOpen(true)}>
-          Выбрать время
-        </button>
-
-        <p style={{marginTop: '20px'}}>
-          📞 +7 926 529-99-79  
-          <br/>
-          Telegram: @Dikalive
-        </p>
-      </section>
-
-      {/* MODAL */}
-      {open && (
-        <div style={modalOverlay}>
-          <div style={modal}>
-            
-            <h2>Выберите время</h2>
-
-            <div style={{marginTop: '20px'}}>
-              {times.map((t) => (
-                <button
-                  key={t}
-                  style={{
-                    ...timeBtn,
-                    background: selectedTime === t ? "#b08968" : "#eee",
-                    color: selectedTime === t ? "#fff" : "#000"
-                  }}
-                  onClick={() => setSelectedTime(t)}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
-
-            <div style={{marginTop: '30px'}}>
-              <button style={btnMain} onClick={handleSubmit}>
-                Записаться
-              </button>
-
-              <button style={btnCancel} onClick={() => setOpen(false)}>
-                Закрыть
-              </button>
-            </div>
-
-          </div>
-        </div>
-      )}
-
-    </main>
-  );
+<style>
+body {
+  margin:0;
+  font-family: Arial;
+  background:#fdfaf7;
+  color:#2b2b2b;
 }
+.container {
+  max-width:1100px;
+  margin:auto;
+  padding:40px 20px;
+}
+.hero {
+  display:flex;
+  gap:40px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.hero img {
+  width:400px;
+  border-radius:20px;
+}
+.btn {
+  background:#d6a77a;
+  color:#fff;
+  padding:15px 25px;
+  border-radius:10px;
+  text-decoration:none;
+}
+.section {
+  margin-top:60px;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+.card {
+  background:#fff;
+  padding:20px;
+  border-radius:15px;
+}
+.gallery img {
+  width:100%;
+  border-radius:15px;
+}
+input,select {
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+}
+button {
+  margin-top:20px;
+  padding:15px;
+  width:100%;
+  background:#d6a77a;
+  color:#fff;
+  border:none;
+}
+</style>
+</head>
 
-const sectionStyle = {
-  padding: '60px 20px',
-  maxWidth: '1100px',
-  margin: '0 auto',
-  display: 'flex',
-  gap: '40px',
-  alignItems: 'center'
-};
+<body>
 
-const imgStyle = {
-  width: '100%',
-  borderRadius: '16px'
-};
+<div class="container">
 
-const ctaStyle = {
-  background: '#ede0d4',
-  padding: '60px 20px',
-  textAlign: 'center'
-};
+<!-- HERO -->
+<div class="hero">
+  <img src="https://4mcbnvc29yi2qylh.public.blob.vercel-storage.com/image-15-04-26-02-09-10.jpeg" />
+  <div>
+    <h1>Динара Качаева</h1>
+    <p>Практикующий психолог. Работа с тревогой, отношениями и внутренними кризисами.</p>
+    <a href="#booking" class="btn">Записаться на консультацию</a>
+  </div>
+</div>
 
-const btnMain = {
-  marginTop: '20px',
-  padding: '14px 22px',
-  background: '#b08968',
-  color: '#fff',
-  border: 'none',
-  borderRadius: '8px',
-  cursor: 'pointer'
-};
+<!-- ABOUT -->
+<div class="section">
+  <h2>Обо мне</h2>
+  <p>
+    Более 10 лет практики. Помогаю разобраться в себе, выстроить внутреннюю опору и выйти из сложных жизненных ситуаций.
+  </p>
+</div>
 
-const btnCancel = {
-  marginLeft: '10px',
-  padding: '14px 22px',
-  background: '#ccc',
-  border: 'none',
-  borderRadius: '8px',
-  cursor: 'pointer'
-};
+<!-- PROBLEMS -->
+<div class="section">
+  <h2>С чем я работаю</h2>
+  <div class="grid">
+    <div class="card">Тревожность</div>
+    <div class="card">Страх одиночества</div>
+    <div class="card">Проблемы в отношениях</div>
+    <div class="card">Выгорание</div>
+  </div>
+</div>
 
-const modalOverlay = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100%',
-  background: 'rgba(0,0,0,0.5)',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center'
-};
+<!-- GALLERY -->
+<div class="section gallery">
+  <h2>Фотографии</h2>
+  <div class="grid">
+    <img src="https://4mcbnvc29yi2qylh.public.blob.vercel-storage.com/image-15-04-26-02-09-10.jpeg">
+    <img src="https://4mcbnvc29yi2qylh.public.blob.vercel-storage.com/image-15-04-26-02-09-11.jpeg">
+    <img src="https://4mcbnvc29yi2qylh.public.blob.vercel-storage.com/image-15-04-26-02-09-2.jpeg">
+    <img src="https://4mcbnvc29yi2qylh.public.blob.vercel-storage.com/image-15-04-26-02-09-5.jpeg">
+    <img src="https://4mcbnvc29yi2qylh.public.blob.vercel-storage.com/image-15-04-26-02-09-6.jpeg">
+    <img src="https://4mcbnvc29yi2qylh.public.blob.vercel-storage.com/image-15-04-26-02-09.jpeg">
+  </div>
+</div>
 
-const modal = {
-  background: '#fff',
-  padding: '30px',
-  borderRadius: '12px',
-  width: '400px',
-  textAlign: 'center'
-};
+<!-- BOOKING -->
+<div class="section" id="booking">
+  <h2>Запись на консультацию</h2>
 
-const timeBtn = {
-  margin: '5px',
-  padding: '10px 15px',
-  borderRadius: '6px',
-  border: 'none',
-  cursor: 'pointer'
-};
+  <form id="form">
+    <input placeholder="Ваше имя" required>
+    <input placeholder="Telegram или телефон" required>
+
+    <select required>
+      <option>Выберите время</option>
+      <option>10:00</option>
+      <option>12:00</option>
+      <option>14:00</option>
+      <option>16:00</option>
+    </select>
+
+    <button>Записаться</button>
+  </form>
+</div>
+
+<!-- CONTACT -->
+<div class="section">
+  <h2>Контакты</h2>
+  <a href="https://t.me/Dikalive" target="_blank">Написать в Telegram</a>
+</div>
+
+</div>
+
+<script>
+document.getElementById('form').addEventListener('submit', async (e)=>{
+  e.preventDefault()
+
+  const data = {
+    name: e.target[0].value,
+    contact: e.target[1].value,
+    time: e.target[2].value
+  }
+
+  await fetch('/api/send',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  })
+
+  alert('Заявка отправлена')
+})
+</script>
+
+</body>
+</html>
+`)
+}
