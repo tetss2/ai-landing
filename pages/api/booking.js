@@ -31,9 +31,19 @@ export default async function handler(req, res) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: `📩 Новая заявка\n⏰ Время: ${body.time}`,
-          }),
+  chat_id: CHAT_ID,
+  text: `📩 Новая заявка\n⏰ Время: ${body.time}`,
+  reply_markup: {
+    inline_keyboard: [
+      [
+        {
+          text: '✅ Подтвердить',
+          callback_data: `confirm_${body.time}`,
+        },
+      ],
+    ],
+  },
+}),
         }
       )
 
