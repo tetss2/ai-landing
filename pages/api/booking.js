@@ -18,7 +18,18 @@ export default async function handler(req, res) {
 
     // если пришла заявка с сайта
     if (body.time) {
-      await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+      const tgRes = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    chat_id: CHAT_ID,
+    text: `📩 Новая заявка\n⏰ Время: ${body.time}`
+  })
+})
+
+const tgData = await tgRes.json()
+
+console.log('TELEGRAM RESPONSE:', tgData)
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
