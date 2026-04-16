@@ -1,4 +1,32 @@
+import { useState } from "react";
+
 export default function Home() {
+  const [open, setOpen] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(null);
+
+  const times = [
+    "10:00",
+    "12:00",
+    "14:00",
+    "16:00",
+    "18:00"
+  ];
+
+  const handleSubmit = async () => {
+    if (!selectedTime) {
+      alert("Выберите время");
+      return;
+    }
+
+    await fetch("/api/booking", {
+      method: "POST",
+      body: JSON.stringify({ time: selectedTime }),
+    });
+
+    alert("Заявка отправлена");
+    setOpen(false);
+  };
+
   return (
     <main style={{
       fontFamily: 'Arial, sans-serif',
@@ -7,175 +35,140 @@ export default function Home() {
     }}>
 
       {/* HERO */}
-      <section style={{
-        padding: '60px 20px',
-        maxWidth: '1100px',
-        margin: '0 auto',
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '40px',
-        alignItems: 'center'
-      }}>
-        
+      <section style={sectionStyle}>
         <div style={{flex: 1}}>
-          <h1 style={{fontSize: '36px'}}>
-            Динара Качаева
-          </h1>
+          <h1>Динара Качаева</h1>
+          <p>Клинический психолог, г. Москва</p>
 
-          <p style={{marginTop: '10px', fontSize: '18px'}}>
-            Клинический психолог, г. Москва
-          </p>
-
-          <p style={{marginTop: '20px'}}>
-            Помогаю справляться с тревогой, кризисами, 
-            проблемами в отношениях и внутренними конфликтами.
-          </p>
-
-          <button style={{
-            marginTop: '30px',
-            padding: '15px 25px',
-            background: '#b08968',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '10px',
-            cursor: 'pointer',
-            fontSize: '16px'
-          }}>
+          <button style={btnMain} onClick={() => setOpen(true)}>
             Записаться на консультацию
           </button>
         </div>
 
         <div style={{flex: 1}}>
-          <img 
-            src="https://via.placeholder.com/450"
-            style={{width: '100%', borderRadius: '16px'}}
-          />
-        </div>
-
-      </section>
-
-      {/* ОБО МНЕ */}
-      <section style={{
-        background: '#fff',
-        padding: '60px 20px'
-      }}>
-        <div style={{maxWidth: '900px', margin: '0 auto'}}>
-
-          <h2>Обо мне</h2>
-
-          <p style={{marginTop: '20px'}}>
-            Психотерапия химической зависимости и других видов аддиктивного поведения. 
-            Индивидуальный подход. Веду терапевтическую практику с 2001 года.
-          </p>
-
-          <p>
-            Использую методы: гештальт, гипнотерапия, EMDR, 
-            психодраматические расстановки, метафорические карты.
-          </p>
-
-          <p>
-            Работаю с ПТСР, тревожными расстройствами, депрессией, 
-            кризисами, проблемами в отношениях, самооценкой.
-          </p>
-
-        </div>
-      </section>
-
-      {/* С ЧЕМ РАБОТАЮ */}
-      <section style={{
-        padding: '60px 20px',
-        maxWidth: '900px',
-        margin: '0 auto'
-      }}>
-        <h2>С чем я работаю</h2>
-
-        <ul style={{marginTop: '20px', lineHeight: '2'}}>
-          <li>Тревожность, страхи, стресс</li>
-          <li>Депрессия, апатия</li>
-          <li>Проблемы в отношениях</li>
-          <li>Личностные кризисы</li>
-          <li>Зависимости</li>
-          <li>Потеря, развод, утраты</li>
-        </ul>
-      </section>
-
-      {/* ОБРАЗОВАНИЕ */}
-      <section style={{
-        background: '#fff',
-        padding: '60px 20px'
-      }}>
-        <div style={{maxWidth: '900px', margin: '0 auto'}}>
-          <h2>Образование</h2>
-
-          <ul style={{marginTop: '20px', lineHeight: '2'}}>
-            <li>Гуманитарный институт г. Москвы (Психология)</li>
-            <li>Московский психолого-социальный университет</li>
-            <li>Московский институт гештальт-терапии</li>
-            <li>Институт практической психологии</li>
-            <li>EMDR, гипноз, травматерапия</li>
-          </ul>
-        </div>
-      </section>
-
-      {/* ФОТО */}
-      <section style={{
-        padding: '60px 20px',
-      }}>
-        <div style={{
-          maxWidth: '1000px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: '20px'
-        }}>
-          
-          <img src="https://via.placeholder.com/300" style={{borderRadius: '12px'}} />
-          <img src="https://via.placeholder.com/300" style={{borderRadius: '12px'}} />
-          <img src="https://via.placeholder.com/300" style={{borderRadius: '12px'}} />
-          <img src="https://via.placeholder.com/300" style={{borderRadius: '12px'}} />
-
+          <img src="https://via.placeholder.com/450" style={imgStyle}/>
         </div>
       </section>
 
       {/* CTA */}
-      <section style={{
-        background: '#ede0d4',
-        padding: '60px 20px',
-        textAlign: 'center'
-      }}>
+      <section style={ctaStyle}>
         <h2>Записаться на консультацию</h2>
 
-        <p style={{marginTop: '10px'}}>
-          Свяжитесь удобным способом
-        </p>
-
-        <div style={{marginTop: '20px'}}>
-
-          <a href="https://wa.me/79265299979">
-            <button style={btnStyle}>WhatsApp</button>
-          </a>
-
-          <a href="https://t.me/">
-            <button style={btnStyle}>Telegram</button>
-          </a>
-
-        </div>
+        <button style={btnMain} onClick={() => setOpen(true)}>
+          Выбрать время
+        </button>
 
         <p style={{marginTop: '20px'}}>
-          📞 +7 926 529-99-79
+          📞 +7 926 529-99-79  
+          <br/>
+          Telegram: @Dikalive
         </p>
       </section>
 
+      {/* MODAL */}
+      {open && (
+        <div style={modalOverlay}>
+          <div style={modal}>
+            
+            <h2>Выберите время</h2>
+
+            <div style={{marginTop: '20px'}}>
+              {times.map((t) => (
+                <button
+                  key={t}
+                  style={{
+                    ...timeBtn,
+                    background: selectedTime === t ? "#b08968" : "#eee",
+                    color: selectedTime === t ? "#fff" : "#000"
+                  }}
+                  onClick={() => setSelectedTime(t)}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+
+            <div style={{marginTop: '30px'}}>
+              <button style={btnMain} onClick={handleSubmit}>
+                Записаться
+              </button>
+
+              <button style={btnCancel} onClick={() => setOpen(false)}>
+                Закрыть
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </main>
-  )
+  );
 }
 
-const btnStyle = {
-  margin: '10px',
+const sectionStyle = {
+  padding: '60px 20px',
+  maxWidth: '1100px',
+  margin: '0 auto',
+  display: 'flex',
+  gap: '40px',
+  alignItems: 'center'
+};
+
+const imgStyle = {
+  width: '100%',
+  borderRadius: '16px'
+};
+
+const ctaStyle = {
+  background: '#ede0d4',
+  padding: '60px 20px',
+  textAlign: 'center'
+};
+
+const btnMain = {
+  marginTop: '20px',
   padding: '14px 22px',
   background: '#b08968',
   color: '#fff',
   border: 'none',
   borderRadius: '8px',
   cursor: 'pointer'
-}
+};
+
+const btnCancel = {
+  marginLeft: '10px',
+  padding: '14px 22px',
+  background: '#ccc',
+  border: 'none',
+  borderRadius: '8px',
+  cursor: 'pointer'
+};
+
+const modalOverlay = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  background: 'rgba(0,0,0,0.5)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
+};
+
+const modal = {
+  background: '#fff',
+  padding: '30px',
+  borderRadius: '12px',
+  width: '400px',
+  textAlign: 'center'
+};
+
+const timeBtn = {
+  margin: '5px',
+  padding: '10px 15px',
+  borderRadius: '6px',
+  border: 'none',
+  cursor: 'pointer'
+};
