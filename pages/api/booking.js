@@ -1,3 +1,5 @@
+console.log('--- NEW REQUEST ---')
+console.log('RAW BODY:', req.body)
 export default async function handler(req, res) {
   const TOKEN = process.env.TELEGRAM_TOKEN
   const CHAT_ID = process.env.TELEGRAM_CHAT_ID
@@ -18,7 +20,10 @@ export default async function handler(req, res) {
   // ================================
   // 1. ЗАЯВКА С САЙТА
   // ================================
-  if (body.time) {
+  console.log('PARSED BODY:', body)
+
+if (body.time) {
+  console.log('TIME FOUND:', body.time)
     try {
       const tgRes = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
         method: 'POST',
