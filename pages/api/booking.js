@@ -6,15 +6,13 @@ export default async function handler(req, res) {
   try {
     const { time } = JSON.parse(req.body);
 
-    const TELEGRAM_TOKEN = "8435899229:AAGcAdtIFokpI3uFoPO7EfmHcSGVTbXGy7I";
-    const CHAT_ID = "109664871";
+    const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
+    const CHAT_ID = process.env.CHAT_ID;
 
     const message = `
 🧠 Новая заявка на консультацию
 
 ⏰ Время: ${time}
-
-Нужно подтвердить запись
 `;
 
     await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
