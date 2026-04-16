@@ -24,7 +24,7 @@ export default async function handler(req, res) {
       })
     })
 
-    return res.status(200).json({ ok: true })
+    return res.status(200).json({ "ok": true })
   }
 
   // 👉 2. webhook от Telegram
