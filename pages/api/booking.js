@@ -21,7 +21,36 @@ export default async function handler(req, res) {
 
     console.log('BODY:', body)
 
-    // если пришла заявка
+    // =========================
+    // 1. ОБРАБОТКА КНОПКИ (callback)
+    // =========================
+    if (body.callback_query) {
+      const chatId = body.callback_query.message.chat.id
+      const data = body.callback_query.data
+
+      console.log('CALLBACK:', data)
+
+      if (data.startsWith('confirm_')) {
+        const time = data.replace('confirm_', '')
+
+        await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: `✅ Запись подтверждена\n⏰ Время: ${time}`,
+          }),
+        })
+      }
+
+      return res.status(200).json({ ok: true })
+    }
+
+    // =========================
+    // 2. НОВАЯ ЗАЯВКА
+    // =========================
     if (body.time) {
       const tgRes = await fetch(
         `https://api.telegram.org/bot${TOKEN}/sendMessage`,
@@ -31,24 +60,23 @@ export default async function handler(req, res) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-  chat_id: CHAT_ID,
-  text: `📩 Новая заявка\n⏰ Время: ${body.time}`,
-  reply_markup: {
-    inline_keyboard: [
-      [
-        {
-          text: '✅ Подтвердить',
-          callback_data: `confirm_${body.time}`,
-        },
-      ],
-    ],
-  },
-}),
+            chat_id: CHAT_ID,
+            text: `📩 Новая заявка\n⏰ Время: ${body.time}`,
+            reply_markup: {
+              inline_keyboard: [
+                [
+                  {
+                    text: '✅ Подтвердить',
+                    callback_data: `confirm_${body.time}`,
+                  },
+                ],
+              ],
+            },
+          }),
         }
       )
 
       const tgData = await tgRes.json()
-
       console.log('TELEGRAM RESPONSE:', tgData)
 
       return res.status(200).json({ ok: true })
